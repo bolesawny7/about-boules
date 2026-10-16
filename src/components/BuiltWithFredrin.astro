@@ -12,8 +12,10 @@ const scores = [
 ---
 
 <section id="built-with-fredrin" aria-labelledby="built-with-fredrin-title">
-  <p class="num" aria-hidden="true">03</p>
-  <h2 id="built-with-fredrin-title">Built with Fredrin</h2>
+  <div class="head">
+    <span class="num" aria-hidden="true">03</span>
+    <h2 id="built-with-fredrin-title">Built with Fredrin</h2>
+  </div>
   <p class="intro">{summary}</p>
 
   <section class="scroll" aria-labelledby="build-log-caption" tabindex="0">
@@ -76,18 +78,26 @@ const scores = [
 
 <style>
   #built-with-fredrin {
-    padding-top: var(--s8);
+    padding: var(--s8) 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .head {
+    display: flex;
+    align-items: baseline;
+    gap: var(--s3);
+    margin-bottom: var(--s5);
   }
 
   .num {
     font-family: var(--font-mono);
     font-size: var(--fs-sm);
     color: var(--accent);
-    margin-bottom: var(--s2);
   }
 
   h2 {
     font-size: var(--fs-h2);
+    letter-spacing: -0.02em;
     font-weight: var(--fw-heading);
     line-height: var(--lh-snug);
   }
@@ -95,7 +105,7 @@ const scores = [
   .intro {
     font-size: var(--fs-md);
     color: var(--muted);
-    margin: var(--s3) 0 var(--s5);
+    margin-bottom: var(--s5);
   }
 
   .scroll {

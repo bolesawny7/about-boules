@@ -14,7 +14,7 @@ const chartDesc = scenarios.map((s) => `${s.label}: ${s.value}`).join('; ') + '.
 
 <section id="case-study" aria-labelledby="case-study-title">
   <div class="head">
-    <span class="num">02</span>
+    <span class="num" aria-hidden="true">02</span>
     <h2 id="case-study-title">{title}</h2>
   </div>
   <p class="summary">{summary}</p>
@@ -94,7 +94,7 @@ const chartDesc = scenarios.map((s) => `${s.label}: ${s.value}`).join('; ') + '.
 
   .summary {
     font-size: var(--fs-summary);
-    line-height: 1.5;
+    line-height: var(--lh-body);
     color: var(--muted);
     margin: calc(-1 * var(--s3)) 0 var(--s5);
     max-width: 52ch;
@@ -143,7 +143,7 @@ const chartDesc = scenarios.map((s) => `${s.label}: ${s.value}`).join('; ') + '.
 
   .block {
     display: grid;
-    grid-template-columns: 160px 1fr;
+    grid-template-columns: calc(var(--s9) + var(--s7)) 1fr;
     gap: var(--s5);
     padding: var(--s5) 0;
     border-top: 1px solid var(--line);
@@ -156,7 +156,7 @@ const chartDesc = scenarios.map((s) => `${s.label}: ${s.value}`).join('; ') + '.
   h3 {
     font-family: var(--font-mono);
     font-size: var(--fs-sm);
-    font-weight: var(--fw-medium);
+    font-weight: var(--fw-regular);
     letter-spacing: 0.04em;
     text-transform: uppercase;
     color: var(--muted);
@@ -166,7 +166,7 @@ const chartDesc = scenarios.map((s) => `${s.label}: ${s.value}`).join('; ') + '.
   p,
   li {
     font-size: var(--fs-md);
-    line-height: 1.6;
+    line-height: var(--lh-body);
   }
 
   ul {

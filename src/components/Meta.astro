@@ -11,6 +11,8 @@ const url = isPlaceholder(siteUrl) ? undefined : siteUrl;
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>{title}</title>
+<!-- No favicon file: an empty inline icon stops the browser requesting /favicon.ico. -->
+<link rel="icon" href="data:," />
 <meta name="description" content={description} />
 {url && <link rel="canonical" href={url} />}
 
