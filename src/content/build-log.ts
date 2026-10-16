@@ -75,16 +75,16 @@ export const buildLog: BuildLog = {
     {
       title: 'Polish, QA and fill the build log',
       changed: 'Filled this build log, showed the Shipped bullets verbatim, aligned section headers and fixed the Lighthouse report upload.',
-      prUrl: PLACEHOLDER,
+      prUrl: 'https://github.com/bolesawny7/about-boules/pull/7',
     },
   ],
   parallelCount: 4,
   ciDuration: '1 min 10 s',
   lighthouse: {
-    performance: PLACEHOLDER,
-    accessibility: PLACEHOLDER,
-    bestPractices: PLACEHOLDER,
-    seo: PLACEHOLDER,
+    performance: 100,
+    accessibility: 100,
+    bestPractices: 100,
+    seo: 100,
   },
 };
 
