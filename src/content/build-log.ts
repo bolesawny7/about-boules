@@ -36,7 +36,7 @@ export interface BuildLog {
 }
 
 /** Vercel production URL (full https URL), used for canonical and og:url. */
-export const siteUrl: string | Placeholder = PLACEHOLDER;
+export const siteUrl: string | Placeholder = 'https://about-boules.vercel.app/';
 
 export const buildLog: BuildLog = {
   summary:

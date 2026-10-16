@@ -147,7 +147,7 @@ export const profile: Profile = {
         'VS Code extension; LangGraph orchestrator routes to four agents; MCP tools and safe TypeScript AST edits; validated in sandboxed Playwright + Jest; React case study reached 100% line coverage with no manual edits',
       label: '100% coverage',
       emphasis: ['VS Code extension'],
-      myPart: 'PLACEHOLDER',
+      myPart: "Set up the repo and backend architecture, built the code analyzer and the agents' file tools, and connected the agents to the backend through an MCP server",
     },
     {
       name: 'OS Memory Manager',

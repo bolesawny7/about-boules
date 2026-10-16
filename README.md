@@ -5,7 +5,7 @@ Forward Deployed Engineer role.
 
 ## Live site
 
-PLACEHOLDER
+https://about-boules.vercel.app/
 
 ## How it was built
 
