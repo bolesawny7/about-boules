@@ -80,7 +80,7 @@ export const buildLog: BuildLog = {
     {
       title: 'Fix copy consistency across Shipped, profile, and Contact; rewrite README',
       changed: 'Dropped the Shipped number labels, reworded the first highlight card, ended every bullet with a period, added no visa needed to the availability line and rewrote the README.',
-      prUrl: PLACEHOLDER,
+      prUrl: 'https://github.com/bolesawny7/about-boules/pull/10',
     },
   ],
   parallelCount: 4,

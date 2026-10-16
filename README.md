@@ -26,7 +26,7 @@ the same file the page's "Built with Fredrin" section reads.
 | Build the context-plugin case study section | [#6](https://github.com/bolesawny7/about-boules/pull/6) |
 | Build the Built with Fredrin section and page meta | [#4](https://github.com/bolesawny7/about-boules/pull/4) |
 | Polish, QA and fill the build log | [#7](https://github.com/bolesawny7/about-boules/pull/7) |
-| Fix copy consistency across Shipped, profile, and Contact; rewrite README | pending |
+| Fix copy consistency across Shipped, profile, and Contact; rewrite README | [#10](https://github.com/bolesawny7/about-boules/pull/10) |
 
 ### CI gates
 
