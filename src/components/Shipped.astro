@@ -1,7 +1,282 @@
 ---
-// STUB: the What I've shipped ticket builds this section (number 01).
+// 01 What I've shipped: three highlight results, then Experience and Projects.
+// Every string comes from src/content/profile.ts.
+import { profile, type Bullet } from '../content/profile';
+
+const PLACEHOLDER = 'PLACEHOLDER';
+
+interface Row {
+  label?: string;
+  parts: { text: string; bold: boolean }[];
+}
+
+/** The mockup ends each bullet with a period; source strings have none. */
+function sentence(text: string): string {
+  return /[.!?)]$/.test(text) ? text : `${text}.`;
+}
+
+/** Split `text` so the first match of each emphasis phrase renders bold. */
+function emphasize(text: string, phrases: string[] = []): Row['parts'] {
+  const hit = phrases
+    .map((p) => ({ p, i: text.indexOf(p) }))
+    .filter((h) => h.i >= 0)
+    .sort((a, b) => a.i - b.i)[0];
+  if (!hit) return [{ text, bold: false }];
+  const end = hit.i + hit.p.length;
+  return [
+    { text: text.slice(0, hit.i), bold: false },
+    { text: hit.p, bold: true },
+    { text: text.slice(end), bold: false },
+  ].filter((part) => part.text);
+}
+
+function row(bullet: Bullet, emphasis?: string[]): Row {
+  if (typeof bullet === 'string') return { parts: emphasize(sentence(bullet), emphasis) };
+  return { label: bullet.label, parts: emphasize(sentence(bullet.short), emphasis) };
+}
+
+const roles = profile.experience.map((role) => ({
+  ...role,
+  rows: role.bullets.map((b) => row(b, role.emphasis)),
+}));
+
+const projects = profile.projects.map((p) => {
+  const rows: Row[] = [
+    p.label && p.short
+      ? { label: p.label, parts: emphasize(sentence(p.short), p.emphasis) }
+      : { parts: emphasize(sentence(p.description), p.emphasis) },
+  ];
+  // A part Boules has not written yet stays out of the page.
+  if (p.myPart && p.myPart !== PLACEHOLDER) rows.push({ parts: [{ text: sentence(p.myPart), bold: false }] });
+  return { ...p, rows };
+});
 ---
 
-<section id="shipped" aria-labelledby="shipped-title">
-  <h2 id="shipped-title">What I've shipped</h2>
+<section id="shipped" class="block" aria-labelledby="shipped-title">
+  <div class="sec-head">
+    <span class="num" aria-hidden="true">01</span>
+    <h2 id="shipped-title">What I've shipped</h2>
+  </div>
+
+  <ul class="highlights">
+    {
+      profile.highlights.map((h) => (
+        <li class="hl">
+          <p class="big">{h.stat}</p>
+          <p class="what">{h.what}</p>
+          <p class="where">{h.where}</p>
+        </li>
+      ))
+    }
+  </ul>
+
+  <h3 class="sub">Experience</h3>
+  {
+    roles.map((role) => (
+      <article class="card">
+        <div class="card-head">
+          <h4 class="role">
+            {role.title} <span>· {role.company}</span>
+          </h4>
+          <span class="dates">
+            {role.dates} · {role.location}
+          </span>
+        </div>
+        <ul class="res">
+          {role.rows.map((r) => (
+            <li class:list={{ plain: !r.label }}>
+              {r.label && <span class="k">{r.label}</span>}
+              <span class="d">{r.parts.map((part) => (part.bold ? <b>{part.text}</b> : part.text))}</span>
+            </li>
+          ))}
+        </ul>
+      </article>
+    ))
+  }
+
+  <h3 class="sub">Projects</h3>
+  {
+    projects.map((p) => (
+      <article class="card">
+        <div class="card-head">
+          <h4 class="role">
+            {p.name} <span>· {p.note}</span>
+          </h4>
+        </div>
+        <ul class="res">
+          {p.rows.map((r) => (
+            <li class:list={{ plain: !r.label }}>
+              {r.label && <span class="k">{r.label}</span>}
+              <span class="d">{r.parts.map((part) => (part.bold ? <b>{part.text}</b> : part.text))}</span>
+            </li>
+          ))}
+        </ul>
+      </article>
+    ))
+  }
 </section>
+
+<style>
+  .block {
+    padding: var(--s8) 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .sec-head {
+    display: flex;
+    align-items: baseline;
+    gap: var(--s3);
+    margin-bottom: var(--s6);
+  }
+
+  .num {
+    font-family: var(--font-mono);
+    font-size: var(--fs-sm);
+    color: var(--accent);
+  }
+
+  h2 {
+    font-size: var(--fs-h2);
+    letter-spacing: -0.02em;
+    font-weight: var(--fw-heading);
+  }
+
+  .highlights {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--s3);
+    margin-bottom: var(--s7);
+  }
+
+  .hl {
+    padding: var(--s5);
+    border-radius: var(--radius);
+    background: var(--accent-soft);
+    border: 1px solid transparent;
+  }
+
+  .big {
+    font-family: var(--font-mono);
+    font-size: var(--fs-stat);
+    font-weight: var(--fw-semibold);
+    letter-spacing: -0.03em;
+    color: var(--accent);
+    line-height: var(--lh-tight);
+  }
+
+  .what {
+    margin-top: var(--s2);
+    font-size: var(--fs-body-sm);
+    line-height: var(--lh-snug);
+  }
+
+  .where {
+    margin-top: var(--s3);
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    color: var(--muted);
+  }
+
+  .sub {
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    font-weight: var(--fw-regular);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--faint);
+    margin: var(--s6) 0 var(--s4);
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: var(--s5) var(--s5) var(--s4);
+    margin-bottom: var(--s4);
+  }
+
+  .card-head {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--s4);
+    flex-wrap: wrap;
+    align-items: baseline;
+  }
+
+  .role {
+    font-size: var(--fs-lg);
+    font-weight: var(--fw-semibold);
+    letter-spacing: -0.01em;
+  }
+
+  .role span {
+    color: var(--muted);
+    font-weight: var(--fw-regular);
+  }
+
+  .dates {
+    font-family: var(--font-mono);
+    font-size: var(--fs-sm);
+    color: var(--muted);
+  }
+
+  .res {
+    list-style: none;
+    margin-top: var(--s4);
+  }
+
+  .res li {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: var(--s4);
+    padding: var(--s3) 0;
+    border-top: 1px dashed var(--line);
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+  }
+
+  .res li:first-child {
+    border-top: 0;
+  }
+
+  .res li.plain .d {
+    grid-column: 2;
+  }
+
+  .k {
+    font-family: var(--font-mono);
+    font-weight: var(--fw-semibold);
+    font-size: var(--fs-body);
+    color: var(--text);
+    white-space: nowrap;
+  }
+
+  .d {
+    color: var(--muted);
+  }
+
+  .d b {
+    color: var(--text);
+    font-weight: var(--fw-medium);
+  }
+
+  @media (max-width: 640px) {
+    .highlights {
+      grid-template-columns: 1fr;
+    }
+
+    .res li {
+      grid-template-columns: 1fr;
+      gap: var(--s1);
+    }
+
+    .res li.plain .d {
+      grid-column: 1;
+    }
+
+    .card {
+      padding: var(--s4);
+    }
+  }
+</style>
