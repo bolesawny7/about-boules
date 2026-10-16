@@ -59,3 +59,6 @@ export const buildLog: BuildLog = {
     seo: PLACEHOLDER,
   },
 };
+
+/** How many tickets built the page; derived so it never drifts from the list. */
+export const ticketCount: number = buildLog.tickets.length;
