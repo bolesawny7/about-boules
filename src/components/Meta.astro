@@ -1,8 +1,24 @@
 ---
 import { profile } from '../content/profile';
+import { siteUrl, isPlaceholder } from '../content/build-log';
+
+const title = profile.name;
+const description = profile.headline;
+// No canonical or og:url until the production URL is on record.
+const url = isPlaceholder(siteUrl) ? undefined : siteUrl;
 ---
 
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>{profile.name}</title>
-<meta name="description" content={profile.headline} />
+<title>{title}</title>
+<meta name="description" content={description} />
+{url && <link rel="canonical" href={url} />}
+
+<meta property="og:type" content="website" />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+{url && <meta property="og:url" content={url} />}
+
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
