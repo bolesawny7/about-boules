@@ -32,7 +32,7 @@ function emphasize(text: string, phrases: string[] = []): Row['parts'] {
 
 function row(bullet: Bullet, emphasis?: string[]): Row {
   if (typeof bullet === 'string') return { parts: emphasize(sentence(bullet), emphasis) };
-  return { label: bullet.label, parts: emphasize(sentence(bullet.short), emphasis) };
+  return { label: bullet.label, parts: emphasize(sentence(bullet.text), emphasis) };
 }
 
 const roles = profile.experience.map((role) => ({
@@ -42,9 +42,7 @@ const roles = profile.experience.map((role) => ({
 
 const projects = profile.projects.map((p) => {
   const rows: Row[] = [
-    p.label && p.short
-      ? { label: p.label, parts: emphasize(sentence(p.short), p.emphasis) }
-      : { parts: emphasize(sentence(p.description), p.emphasis) },
+    { label: p.label, parts: emphasize(sentence(p.description), p.emphasis) },
   ];
   // A part Boules has not written yet stays out of the page.
   if (p.myPart && p.myPart !== PLACEHOLDER) rows.push({ parts: [{ text: sentence(p.myPart), bold: false }] });
@@ -228,7 +226,7 @@ const projects = profile.projects.map((p) => {
 
   .res li {
     display: grid;
-    grid-template-columns: 120px 1fr;
+    grid-template-columns: calc(var(--s9) + var(--s2)) 1fr;
     gap: var(--s4);
     padding: var(--s3) 0;
     border-top: 1px dashed var(--line);
