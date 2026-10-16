@@ -1,0 +1,33 @@
+---
+import '../styles/tokens.css';
+import Meta from '../components/Meta.astro';
+import Hero from '../components/Hero.astro';
+import Shipped from '../components/Shipped.astro';
+import CaseStudy from '../components/CaseStudy.astro';
+import BuiltWithFredrin from '../components/BuiltWithFredrin.astro';
+import Contact from '../components/Contact.astro';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <Meta />
+  </head>
+  <body>
+    <main class="wrap">
+      <Hero />
+      <Shipped />
+      <CaseStudy />
+      <BuiltWithFredrin />
+      <Contact />
+    </main>
+  </body>
+</html>
+
+<style>
+  .wrap {
+    max-width: var(--measure);
+    margin: 0 auto;
+    padding: 0 var(--s5) var(--s8);
+  }
+</style>
