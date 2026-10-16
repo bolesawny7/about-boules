@@ -1,9 +1,147 @@
 ---
-// STUB: the Hero + Contact ticket builds this section.
 import { profile } from '../content/profile';
+import { buildLog, PLACEHOLDER } from '../content/build-log';
+
+// "Cairo, Egypt (GMT+2), open to remote, works as a contractor" →
+// "Cairo, Egypt (GMT+2) · open to remote · works as a contractor" (same words).
+const [city, country, ...terms] = profile.location.split(', ');
+const location = [`${city}, ${country}`, ...terms].join(' · ');
+
+// The mockup emphasises the headline's lead words.
+const lead = 'Software engineer';
+const hasLead = profile.headline.startsWith(lead);
+const headlineRest = hasLead ? profile.headline.slice(lead.length) : profile.headline;
+
+const github = profile.links.find((l) => l.url.startsWith('github.com'));
+
+// Placeholder tickets mean the build log is not filled in yet: say so, never guess a count.
+const ticketCount = buildLog.tickets.some((t) => t.title === PLACEHOLDER)
+  ? PLACEHOLDER
+  : buildLog.tickets.length;
 ---
 
 <header class="hero">
+  <p class="loc"><span class="dot" aria-hidden="true"></span><span>{location}</span></p>
   <h1>{profile.name}</h1>
-  <p>{profile.headline}</p>
+  <p class="headline">
+    {hasLead && <strong>{lead}</strong>}{headlineRest}
+  </p>
+  <div class="actions">
+    <a class="btn primary" href={`mailto:${profile.email}`}>Email <span aria-hidden="true">↗</span></a>
+    {
+      github && (
+        <a class="btn" href={`https://${github.url}`}>
+          GitHub <span aria-hidden="true">↗</span>
+        </a>
+      )
+    }
+  </div>
+  <p class="built">
+    <a href="#built-with-fredrin">Built with Fredrin: {ticketCount} tickets, {buildLog.parallelCount} in parallel</a>
+  </p>
 </header>
+
+<style>
+  .hero {
+    padding: var(--s9) 0 var(--s8);
+  }
+
+  .loc {
+    display: flex;
+    gap: var(--s2);
+    align-items: baseline;
+    margin-bottom: var(--s5);
+    font-size: var(--fs-md);
+    color: var(--muted);
+  }
+
+  .dot {
+    flex: none;
+    display: inline-block;
+    width: var(--s2);
+    height: var(--s2);
+    border-radius: 50%;
+    background: var(--accent);
+    transform: translateY(-1px);
+  }
+
+  h1 {
+    font-size: var(--fs-h1);
+    line-height: var(--lh-tight);
+    letter-spacing: -0.035em;
+    font-weight: var(--fw-display);
+    overflow-wrap: break-word;
+  }
+
+  .headline {
+    margin-top: var(--s5);
+    max-width: 34ch;
+    font-size: var(--fs-lede);
+    line-height: var(--lh-snug);
+    letter-spacing: -0.01em;
+    color: var(--muted);
+  }
+
+  .headline strong {
+    color: var(--text);
+    font-weight: var(--fw-medium);
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s3);
+    margin-top: var(--s6);
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s2);
+    min-height: calc(var(--s7) - var(--s1)); /* 44px target */
+    padding: 0 var(--s5);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-pill);
+    background: var(--surface);
+    color: var(--text);
+    font-size: var(--fs-body);
+    font-weight: var(--fw-medium);
+    text-decoration: none;
+  }
+
+  .btn.primary {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--on-accent);
+  }
+
+  .btn:focus-visible,
+  .built a:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+  }
+
+  .built {
+    margin-top: var(--s4);
+    font-size: var(--fs-sm);
+    color: var(--muted);
+  }
+
+  .built a {
+    display: inline-flex;
+    align-items: center;
+    min-height: calc(var(--s7) - var(--s1)); /* 44px target */
+    color: inherit;
+    text-underline-offset: var(--s1);
+  }
+
+  .built a:hover {
+    color: var(--accent);
+  }
+
+  @media (max-width: 640px) {
+    .hero {
+      padding: var(--s8) 0 var(--s7);
+    }
+  }
+</style>
