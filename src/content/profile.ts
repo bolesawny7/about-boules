@@ -7,20 +7,12 @@ export interface Link {
   note?: string;
 }
 
-/** A bullet with a number label. `text` stays verbatim from the source. */
-export interface LabeledBullet {
-  text: string;
-  label: string;
-}
-
-export type Bullet = string | LabeledBullet;
-
 export interface Role {
   company: string;
   title: string;
   dates: string;
   location: string;
-  bullets: Bullet[];
+  bullets: string[];
   /** Phrases shown in bold wherever they appear in this role's bullets. */
   emphasis?: string[];
 }
@@ -29,7 +21,6 @@ export interface Project {
   name: string;
   note: string;
   description: string;
-  label?: string;
   emphasis?: string[];
   /** Boules's own part, in his words. */
   myPart?: string;
@@ -65,7 +56,7 @@ export const profile: Profile = {
   name: 'Boules A. Marzouk',
   headline:
     'Software engineer building tooling for AI coding agents and the platform 30+ engineering teams ship on.',
-  location: 'Cairo, Egypt (GMT+2), open to remote, works as a contractor',
+  location: 'Cairo, Egypt (GMT+2), open to remote, works as a contractor, no visa needed',
   email: 'polesawny5@gmail.com',
   links: [
     { url: 'github.com/bolesawny7' },
@@ -75,7 +66,7 @@ export const profile: Profile = {
   highlights: [
     {
       stat: '46–99.8%',
-      what: 'fewer main-context tokens across benchmarked tasks',
+      what: 'fewer main-context tokens across five benchmark scenarios (median 95.7%)',
       where: 'Procore · Claude Code + Cursor plugin',
     },
     {
@@ -97,16 +88,10 @@ export const profile: Profile = {
       location: 'remote',
       bullets: [
         'Built a cross-platform Node.js plugin for Claude Code and Cursor that cut main-context tokens 46–99.8% across five benchmark scenarios (median 95.7%) with no loss in answer quality.',
-        'Designed a tiered delegation system routing bulk code analysis and boilerplate to lower-cost LLM subagents, keeping source code within approved boundaries',
-        {
-          text: 'Fail-open pre-read hooks, CodeQL fixes (TOCTOU races, shell injection), 66 automated tests',
-          label: '66 tests',
-        },
-        {
-          text: 'Builds and operates Go and Ruby on Rails services on the internal developer platform (50+ integrated systems, 30+ teams)',
-          label: '50+ systems',
-        },
-        "Halved a service's CI time (10 to 5 min) with a shared, cached builder; redesigned CI alerting to page only on blocking failures; global CI/CD on-call",
+        'Designed a tiered delegation system routing bulk code analysis and boilerplate to lower-cost LLM subagents, keeping source code within approved boundaries.',
+        'Fail-open pre-read hooks, CodeQL fixes (TOCTOU races, shell injection), 66 automated tests.',
+        'Builds and operates Go and Ruby on Rails services on the internal developer platform (50+ integrated systems, 30+ teams).',
+        "Halved a service's CI time (10 to 5 min) with a shared, cached builder; redesigned CI alerting to page only on blocking failures; global CI/CD on-call.",
       ],
       emphasis: [
         'cross-platform Node.js plugin for Claude Code and Cursor',
@@ -122,15 +107,9 @@ export const profile: Profile = {
       dates: 'Feb 2025–Dec 2025',
       location: 'Cairo (hybrid)',
       bullets: [
-        "Cut a critical backend API's execution time by 80%",
-        {
-          text: 'Helped design gRPC contracts connecting 10+ internal services',
-          label: '10+ services',
-        },
-        {
-          text: 'Built a debugging tool still used by 40+ engineers (~30% faster issue resolution)',
-          label: '40+ engineers',
-        },
+        "Cut a critical backend API's execution time by 80%.",
+        'Helped design gRPC contracts connecting 10+ internal services.',
+        'Built a debugging tool still used by 40+ engineers (~30% faster issue resolution).',
       ],
       emphasis: [
         "Cut a critical backend API's execution time by 80%",
@@ -144,16 +123,15 @@ export const profile: Profile = {
       name: 'AI-Assisted Agentic Testing System',
       note: 'Siemens-sponsored',
       description:
-        'VS Code extension; LangGraph orchestrator routes to four agents; MCP tools and safe TypeScript AST edits; validated in sandboxed Playwright + Jest; React case study reached 100% line coverage with no manual edits',
-      label: '100% coverage',
+        'VS Code extension; LangGraph orchestrator routes to four agents; MCP tools and safe TypeScript AST edits; validated in sandboxed Playwright + Jest; React case study reached 100% line coverage with no manual edits.',
       emphasis: ['VS Code extension'],
-      myPart: "Set up the repo and backend architecture, built the code analyzer and the agents' file tools, and connected the agents to the backend through an MCP server",
+      myPart: "Set up the repo and backend architecture, built the code analyzer and the agents' file tools, and connected the agents to the backend through an MCP server.",
     },
     {
       name: 'OS Memory Manager',
       note: 'C',
       description:
-        'malloc, kernel-level allocation, shared memory, fault handlers, scheduler with semaphores and locks',
+        'malloc, kernel-level allocation, shared memory, fault handlers, scheduler with semaphores and locks.',
     },
   ],
   education: {

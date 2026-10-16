@@ -77,6 +77,11 @@ export const buildLog: BuildLog = {
       changed: 'Filled this build log, showed the Shipped bullets verbatim, aligned section headers and fixed the Lighthouse report upload.',
       prUrl: 'https://github.com/bolesawny7/about-boules/pull/7',
     },
+    {
+      title: 'Fix copy consistency across Shipped, profile, and Contact; rewrite README',
+      changed: 'Dropped the Shipped number labels, reworded the first highlight card, ended every bullet with a period, added no visa needed to the availability line and rewrote the README.',
+      prUrl: PLACEHOLDER,
+    },
   ],
   parallelCount: 4,
   ciDuration: '1 min 10 s',
