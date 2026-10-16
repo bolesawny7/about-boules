@@ -12,3 +12,6 @@ dist/
 # logs and OS files
 npm-debug.log*
 .DS_Store
+
+# Lighthouse CI reports
+.lighthouseci/
