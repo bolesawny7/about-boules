@@ -1,7 +1,211 @@
 ---
-// STUB: the Built with Fredrin + Meta ticket builds this section (number 03).
+import { buildLog, isPlaceholder } from '../content/build-log';
+
+const { summary, tickets, parallelCount, ciDuration, lighthouse } = buildLog;
+
+const scores = [
+  { label: 'Performance', value: lighthouse.performance },
+  { label: 'Accessibility', value: lighthouse.accessibility },
+  { label: 'Best practices', value: lighthouse.bestPractices },
+  { label: 'SEO', value: lighthouse.seo },
+];
 ---
 
 <section id="built-with-fredrin" aria-labelledby="built-with-fredrin-title">
+  <p class="num" aria-hidden="true">03</p>
   <h2 id="built-with-fredrin-title">Built with Fredrin</h2>
+  <p class="intro">{summary}</p>
+
+  <section class="scroll" aria-labelledby="build-log-caption" tabindex="0">
+    <table>
+      <caption id="build-log-caption">Tickets that built this page</caption>
+      <thead>
+        <tr>
+          <th scope="col">Ticket</th>
+          <th scope="col">What it changed</th>
+          <th scope="col">Pull request</th>
+        </tr>
+      </thead>
+      <tbody>
+        {
+          tickets.map((t) => (
+            <tr>
+              <th scope="row">{t.title}</th>
+              <td>{isPlaceholder(t.changed) ? <span class="pending">pending</span> : t.changed}</td>
+              <td>
+                {isPlaceholder(t.prUrl) ? (
+                  <span class="pending">pending</span>
+                ) : (
+                  <a href={t.prUrl}>
+                    PR<span class="sr-only"> for {t.title}</span>
+                  </a>
+                )}
+              </td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </section>
+
+  <dl class="stats">
+    <div class="stat">
+      <dt>Ran in parallel</dt>
+      <dd>{isPlaceholder(parallelCount) ? <span class="pending">pending</span> : `${parallelCount} tickets`}</dd>
+    </div>
+    <div class="stat">
+      <dt>Final CI run</dt>
+      <dd>{isPlaceholder(ciDuration) ? <span class="pending">pending</span> : ciDuration}</dd>
+    </div>
+    <div class="stat stat-wide">
+      <dt>Lighthouse</dt>
+      <dd>
+        <ul class="scores">
+          {
+            scores.map((s) => (
+              <li>
+                {s.label} {isPlaceholder(s.value) ? <span class="pending">pending</span> : <strong>{s.value}</strong>}
+              </li>
+            ))
+          }
+        </ul>
+      </dd>
+    </div>
+  </dl>
 </section>
+
+<style>
+  #built-with-fredrin {
+    padding-top: var(--s8);
+  }
+
+  .num {
+    font-family: var(--font-mono);
+    font-size: var(--fs-sm);
+    color: var(--accent);
+    margin-bottom: var(--s2);
+  }
+
+  h2 {
+    font-size: var(--fs-h2);
+    font-weight: var(--fw-heading);
+    line-height: var(--lh-snug);
+  }
+
+  .intro {
+    font-size: var(--fs-md);
+    color: var(--muted);
+    margin: var(--s3) 0 var(--s5);
+  }
+
+  .scroll {
+    overflow-x: auto;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--surface);
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--fs-body-sm);
+    line-height: var(--lh-snug);
+  }
+
+  caption {
+    text-align: left;
+    font-size: var(--fs-sm);
+    color: var(--faint);
+    padding: var(--s3) var(--s4) 0;
+  }
+
+  th,
+  td {
+    text-align: left;
+    vertical-align: top;
+    padding: var(--s3) var(--s4);
+    border-bottom: 1px solid var(--line);
+  }
+
+  tbody tr:last-child > * {
+    border-bottom: 0;
+  }
+
+  thead th {
+    font-size: var(--fs-xs);
+    font-weight: var(--fw-semibold);
+    color: var(--muted);
+  }
+
+  tbody th {
+    font-weight: var(--fw-medium);
+  }
+
+  a {
+    color: var(--accent);
+    font-weight: var(--fw-medium);
+  }
+
+  .pending {
+    color: var(--faint);
+    font-style: italic;
+  }
+
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--s4);
+    margin-top: var(--s5);
+  }
+
+  .stat {
+    padding: var(--s4);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--surface);
+  }
+
+  .stat-wide {
+    grid-column: 1 / -1;
+  }
+
+  dt {
+    font-size: var(--fs-sm);
+    color: var(--muted);
+    margin-bottom: var(--s1);
+  }
+
+  dd {
+    font-size: var(--fs-lg);
+    font-weight: var(--fw-semibold);
+  }
+
+  .scores {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s2) var(--s5);
+    font-size: var(--fs-body);
+    font-weight: var(--fw-regular);
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  @media (max-width: 640px) {
+    th,
+    td {
+      padding: var(--s2) var(--s3);
+    }
+
+    .stats {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
