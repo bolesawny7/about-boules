@@ -7,11 +7,19 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "check": "astro check"
+    "check": "astro check",
+    "check:facts": "tsx scripts/check-facts.ts",
+    "validate:html": "html-validate \"dist/**/*.html\""
   },
   "dependencies": {
     "@astrojs/check": "^0.9.10",
     "astro": "^7.4.0",
     "typescript": "^6.0.3"
+  },
+  "devDependencies": {
+    "@types/node": "^24.19.2",
+    "html-validate": "^11.16.2",
+    "node-html-parser": "^9.0.4",
+    "tsx": "^4.23.15"
   }
 }
