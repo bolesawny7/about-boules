@@ -57,8 +57,7 @@ export const profile: Profile = {
       dates: 'Feb 2026–present',
       location: 'remote',
       bullets: [
-        // The Case study ticket replaces this first bullet with its benchmarked wording.
-        'Built a cross-platform Node.js plugin for Claude Code and Cursor that intercepts large whole-file reads, cutting main-context tokens 46–99.8% across benchmarked tasks',
+        'Built a cross-platform Node.js plugin for Claude Code and Cursor that cut main-context tokens 46–99.8% across five benchmark scenarios (median 95.7%) with no loss in answer quality.',
         'Designed a tiered delegation system routing bulk code analysis and boilerplate to lower-cost LLM subagents, keeping source code within approved boundaries',
         'Fail-open pre-read hooks, CodeQL fixes (TOCTOU races, shell injection), 66 automated tests',
         'Builds and operates Go and Ruby on Rails services on the internal developer platform (50+ integrated systems, 30+ teams)',
