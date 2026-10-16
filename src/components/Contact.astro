@@ -4,9 +4,10 @@ import { profile } from '../content/profile';
 const label = (url: string) =>
   url.startsWith('github.com') ? 'GitHub' : url.startsWith('linkedin.com') ? 'LinkedIn' : 'Old portfolio';
 
-// Availability comes from the sourced location: "open to remote, works as a contractor".
-const [, , ...terms] = profile.location.split(', ');
-const availability = terms.join('; ');
+// Availability comes from the sourced location:
+// "open to remote, works as a contractor, no visa needed".
+const [, , remote, ...terms] = profile.location.split(', ');
+const availability = [remote, terms.join(', ')].filter(Boolean).join('; ');
 const availabilityText = availability.charAt(0).toUpperCase() + availability.slice(1) + '.';
 ---
 

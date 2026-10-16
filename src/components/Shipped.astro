@@ -1,22 +1,14 @@
 ---
 // 01 What I've shipped: three highlight results, then Experience and Projects.
 // Every string comes from src/content/profile.ts.
-import { profile, type Bullet } from '../content/profile';
+import { profile } from '../content/profile';
 
 const PLACEHOLDER = 'PLACEHOLDER';
 
-interface Row {
-  label?: string;
-  parts: { text: string; bold: boolean }[];
-}
-
-/** The mockup ends each bullet with a period; source strings have none. */
-function sentence(text: string): string {
-  return /[.!?)]$/.test(text) ? text : `${text}.`;
-}
+type Row = { text: string; bold: boolean }[];
 
 /** Split `text` so the first match of each emphasis phrase renders bold. */
-function emphasize(text: string, phrases: string[] = []): Row['parts'] {
+function emphasize(text: string, phrases: string[] = []): Row {
   const hit = phrases
     .map((p) => ({ p, i: text.indexOf(p) }))
     .filter((h) => h.i >= 0)
@@ -30,22 +22,15 @@ function emphasize(text: string, phrases: string[] = []): Row['parts'] {
   ].filter((part) => part.text);
 }
 
-function row(bullet: Bullet, emphasis?: string[]): Row {
-  if (typeof bullet === 'string') return { parts: emphasize(sentence(bullet), emphasis) };
-  return { label: bullet.label, parts: emphasize(sentence(bullet.text), emphasis) };
-}
-
 const roles = profile.experience.map((role) => ({
   ...role,
-  rows: role.bullets.map((b) => row(b, role.emphasis)),
+  rows: role.bullets.map((b) => emphasize(b, role.emphasis)),
 }));
 
 const projects = profile.projects.map((p) => {
-  const rows: Row[] = [
-    { label: p.label, parts: emphasize(sentence(p.description), p.emphasis) },
-  ];
+  const rows: Row[] = [emphasize(p.description, p.emphasis)];
   // A part Boules has not written yet stays out of the page.
-  if (p.myPart && p.myPart !== PLACEHOLDER) rows.push({ parts: [{ text: sentence(p.myPart), bold: false }] });
+  if (p.myPart && p.myPart !== PLACEHOLDER) rows.push([{ text: p.myPart, bold: false }]);
   return { ...p, rows };
 });
 ---
@@ -82,10 +67,7 @@ const projects = profile.projects.map((p) => {
         </div>
         <ul class="res">
           {role.rows.map((r) => (
-            <li class:list={{ plain: !r.label }}>
-              {r.label && <span class="k">{r.label}</span>}
-              <span class="d">{r.parts.map((part) => (part.bold ? <b>{part.text}</b> : part.text))}</span>
-            </li>
+            <li>{r.map((part) => (part.bold ? <b>{part.text}</b> : part.text))}</li>
           ))}
         </ul>
       </article>
@@ -103,10 +85,7 @@ const projects = profile.projects.map((p) => {
         </div>
         <ul class="res">
           {p.rows.map((r) => (
-            <li class:list={{ plain: !r.label }}>
-              {r.label && <span class="k">{r.label}</span>}
-              <span class="d">{r.parts.map((part) => (part.bold ? <b>{part.text}</b> : part.text))}</span>
-            </li>
+            <li>{r.map((part) => (part.bold ? <b>{part.text}</b> : part.text))}</li>
           ))}
         </ul>
       </article>
@@ -225,36 +204,18 @@ const projects = profile.projects.map((p) => {
   }
 
   .res li {
-    display: grid;
-    grid-template-columns: calc(var(--s9) + var(--s2)) 1fr;
-    gap: var(--s4);
     padding: var(--s3) 0;
     border-top: 1px dashed var(--line);
     font-size: var(--fs-body);
     line-height: var(--lh-body);
+    color: var(--muted);
   }
 
   .res li:first-child {
     border-top: 0;
   }
 
-  .res li.plain .d {
-    grid-column: 2;
-  }
-
-  .k {
-    font-family: var(--font-mono);
-    font-weight: var(--fw-semibold);
-    font-size: var(--fs-body);
-    color: var(--text);
-    white-space: nowrap;
-  }
-
-  .d {
-    color: var(--muted);
-  }
-
-  .d b {
+  .res b {
     color: var(--text);
     font-weight: var(--fw-medium);
   }
@@ -262,15 +223,6 @@ const projects = profile.projects.map((p) => {
   @media (max-width: 640px) {
     .highlights {
       grid-template-columns: 1fr;
-    }
-
-    .res li {
-      grid-template-columns: 1fr;
-      gap: var(--s1);
-    }
-
-    .res li.plain .d {
-      grid-column: 1;
     }
 
     .card {
